@@ -206,17 +206,21 @@ end
 # Loop a few times to get an average count
 count = 0
 phrases = 0
+words = 0
 0.upto(10) do |i|
   guesser = DictionaryGuesser.new(HOST, NAME)
   guesser.run()
   count   = count + guesser.count
   phrases = phrases + guesser.phrases_slices.count
+  words   = [words, guesser.words.count].max
 end
 
 puts ""
 puts "=====" * 5
 puts "Avg Attempts/Word = #{count.to_f/phrases.to_f}"
-puts "Total Phrases     = #{phrases}"
+puts ""
+puts "Total Dict Words  = #{words}"
 puts "Total Attempts    = #{count}"
+puts "Total Phrases     = #{phrases}"
 puts "=====" * 5
 puts ""
