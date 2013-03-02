@@ -1,9 +1,10 @@
 require 'json/pure'
+require File.join(File.expand_path(File.dirname(__FILE__)), 'lib/string.rb')
 require File.join(File.expand_path(File.dirname(__FILE__)), 'lib/dictionary.rb')
 require File.join(File.expand_path(File.dirname(__FILE__)), 'lib/user_state.rb')
 
 
-class YahooDictionary < Sinatra::Base
+class DictionaryApp < Sinatra::Base
   before do
     content_type 'application/json'
   end
@@ -51,9 +52,17 @@ class YahooDictionary < Sinatra::Base
 
     # Save the UserState
     user_state.save
-
+    
+    gusses = params['guess'].split(' ')
+    words  = user_state.words
+    raise Exception, "gusses=#{params['guess']} doesn't match words phrase=#{user_state.phrase}" unless gusses.size == words.size
+    
     # How many characters match?
-    matches = user_state.guess_matches(params['guess'])
+    matches = 0
+    0.upto(words.size-1) do |index|
+      # How many characters match?
+      matches = matches + words[index].chars_matching(gusses[index])
+    end
 
     # Return the phass phrase
     { :matches => matches, :count => user_state.count }.to_json

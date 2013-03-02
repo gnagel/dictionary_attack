@@ -53,52 +53,7 @@ class UserState
 
   # Get the phrase the user has to match
   def phrase
-    # Gather all the patterns together
-    patterns = words.collect do |word|
-      # Replace all the letters with periods ('.')
-      '.' * word.length
-      # word.length.downto(1).collect { |i| '.' }
-    end
-
-    # Join the patterns with spaces
-    # Return the result
-    patterns.join(' ')
-  end
-
-
-  # Count the number of matching characers
-  def guess_matches(guess)
-    # downcase the input
-    guess.downcase!
-
-    # Join the words by spaces
-    match_words = words.join(' ')
-
-    # Count of matching characters
-    count = 0
-    
-    guess_chars = guess.chars.collect { |char| char }
-    match_chars = match_words.chars.collect { |char| char }
-
-    # Iterate the strings in parallel and match the characers
-    0.upto([guess_chars.size, match_chars.size].min) do |index|
-      # Input (LHS) vs Expected (RHS)
-      lhs = guess_chars[index]
-      next if lhs.nil? || lhs.empty? || lhs == '.'
-      
-      rhs = match_chars[index]
-      next if rhs.nil? || rhs.empty? || rhs == ' '
-      
-      matches = lhs == rhs
-      # puts "\n#{__FILE__}:#{__LINE__} lhs=#{lhs}, rhs=#{rhs}, matches=#{matches}\n"
-
-      count = count + 1 if (matches)
-    end
-    
-    # puts "\n#{__FILE__}:#{__LINE__} words=#{words.join(' ')}, guess=#{guess}, count=#{count}\n\n"
-
-    # Return the counter
-    count
+    words.collect { |word| word.phrase }.join(' ')
   end
 
 
