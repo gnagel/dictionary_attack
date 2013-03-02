@@ -12,6 +12,7 @@ class DictionaryGuesser
   attr_accessor :words
   attr_accessor :token
   attr_accessor :phrases
+  attr_accessor :phrases_slices
   attr_accessor :username
   attr_accessor :count
 
@@ -204,18 +205,18 @@ end
 
 # Loop a few times to get an average count
 count = 0
-words = 0
+phrases = 0
 0.upto(10) do |i|
   guesser = DictionaryGuesser.new(HOST, NAME)
   guesser.run()
-  count = count + guesser.count
-  words = words + guesser.words.count
+  count   = count + guesser.count
+  phrases = phrases + guesser.phrases_slices.count
 end
 
 puts ""
 puts "=====" * 5
-puts "Avg Attempts/Word = #{count.to_f/words.to_f}"
-puts "Total Words       = #{words}"
+puts "Avg Attempts/Word = #{count.to_f/phrases.to_f}"
+puts "Total Phrases     = #{phrases}"
 puts "Total Attempts    = #{count}"
 puts "=====" * 5
 puts ""
